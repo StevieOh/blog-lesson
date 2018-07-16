@@ -19,7 +19,9 @@
     <ul>
       <li>Name: <%=author.name%></li>
     </ul>
+    <form method="POST" action="/authors/<%=author.id%>?_method=DELETE"><input type="submit" value="DELETE"></form>
   </section>
+
 </main>
 </body>
 </html>

@@ -18,7 +18,9 @@ router.get('/', (req, res) => {
 router.get('/new', (req, res) => {
  res.render('authors/new.ejs') 
 });
-
+//=======================
+//  AUTHOR SHOW PAGE
+//=======================
 router.get('/:id', (req, res) => {
  Author.findById(req.params.id, (err, foundAuthor) => {
    res.render('authors/show.ejs',{
@@ -29,13 +31,23 @@ router.get('/:id', (req, res) => {
     
 
 router.post('/', (req, res) => {
- console.log(req.body)
- Author.create(req.body, (err, createdAuthor) => {
-   console.log(createdAuthor, 'this is the createdAuthor');
-   res.redirect('/authors');
- })
+  console.log(req.body)
+   Author.create(req.body, (err, createdAuthor) => {
+     console.log(createdAuthor, 'this is the createdAuthor');
+     res.redirect('/authors');
+   })
 });
 
+
+//=====================
+//  DELETE ROUTE
+//=====================
+router.delete('/:id', (req, res) => {
+ Author.findByIdAndRemove(req.params.id, (err, deletedAuthor) => {
+   console.log(deletedAuthor, ' this is deletedAuthor');
+   res.redirect('/authors')
+ }) 
+});
 
 
 
