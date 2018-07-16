@@ -3,10 +3,10 @@ const router = express.Router();
 const Article = require('../models/article');
 
 router.get('/', (req, res) => {
- Article.find({}, (err, foundArticle) => {
-   console.log(foundArticle, '<---- foundArticle');
+ Article.find({}, (err, foundArticles) => {
+   console.log(foundArticles, '<---- foundArticle');
    res.render('articles/index.ejs', {
-    articles: foundArticle
+    articles: foundArticles
    })
  });
 });
@@ -15,14 +15,16 @@ router.get('/new', (req, res) => {
  res.render('articles/new.ejs') 
 });
 
+// show
 router.get('/:id', (req, res) => {
  Article.findById(req.params.id, (err, foundArticle) => {
    res.render('articles/show.ejs', {
-    articles: foundArticle
+    article: foundArticle
    })
  }); 
 });
 
+// edit
 router.get('/:id/edit', (req, res) => {
  Article.findById(req.params.id, (err, foundArticle) => {
    res.render('articles/edit.ejs', {

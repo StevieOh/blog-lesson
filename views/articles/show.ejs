@@ -6,7 +6,6 @@
   </head>
   <body>
     <header>
-      <h1><%=articles.title%></h1>
       <nav>
         <ul>
           <li>
@@ -21,18 +20,21 @@
 
     <main>
       <section>
-        <h2>Article Attributes</h2>
-        <ul>
-          <li>Title: <%=articles.title%></li>
-        </ul>
+        <h1>
+          Title: <%= article.title%>
+        </h1>
+        <p>
+          <%= article.body %>
+        </p> 
       </section>
       
       <section>
          
-          <form method="POST" action="/articles/<%=articles.id%>?_method=DELETE" >
+          <form method="POST" action="/articles/<%=article.id%>?_method=DELETE" >
         <input type="submit" value="Delete Article"/>
           </form>
       </section>
+      <a href="/articles/<%=article.id%>/edit"><button>Edit Article</button></a>
     </main>
   </body>
 </html>
