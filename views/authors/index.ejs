@@ -4,6 +4,7 @@
   <title></title>
 </head>
 <body>
+  <header>
 <h1>Authors</h1>
 <nav>
   <ul>
@@ -11,5 +12,17 @@
     <li><a href="/authors/new">Create a new author</a></li>
   </ul>
 </nav>
+</header>
+<main>
+  <main>
+    <h2>List of Authors</h2>
+    <ul>
+      <% for (let i = 0; i < authors.length; i++) {%>
+      <li><a href="/authors/<%=authors[i].id%>"><%=authors[i].name%></a></li>
+       
+     <%}%>
+    </ul>
+  </main>
+</main>
 </body>
 </html>
