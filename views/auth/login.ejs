@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <!-- <small>You need to be logged in to access these articles</small> -->
+  <h4>Login</h4>
+
+  <form action="/auth/login" method="POST">
+  Username: <input type="text" name="username" placeholder="username">
+  <br>
+  Password: <input type="password" name="password" placeholder="password">
+  <br>
+  <button type="submit">Login</button>
+  </form>
+  <h5><%=message%></h5>
+</body>
+</html>

@@ -5,11 +5,18 @@ const Article = require('../models/article');
 const Author = require('../models/author');
 
 router.get('/', (req, res) => {
-  Article.find({}, (err, foundArticle) => {
-    res.render('articles/index.ejs', {
-      articles: foundArticle
-   });
- })
+  console.log(req.session, '<----this is req.session in articleController')
+  if(req.session.loggedIn ===true){
+    Article.find({}, (err, foundArticle) => {
+      res.render('articles/index.ejs', {
+        articles: foundArticle,
+        username: req.session.username
+      });
+    })
+  }else{
+    req.session.message = "you have to be logged in"
+    res.redirect('/auth');
+  }
 });
 
 router.get('/new', (req, res) => {
