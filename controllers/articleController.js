@@ -4,22 +4,38 @@ const router = express.Router();
 const Article = require('../models/article');
 const Author = require('../models/author');
 
-router.get('/', (req, res) => {
-  Article.find({}, (err, foundArticle) => {
+//============================
+//    ARTICLE INDEX ROUTE
+//============================
+router.get('/', async (req, res, next) => {
+  try{
+    const foundArticle = await Article.find({});
     res.render('articles/index.ejs', {
       articles: foundArticle
-   });
- })
+    });
+  }catch(err){
+    console.log(err)
+    next(err)
+  }
 });
 
+//============================
+//    NEW ARTICLE ROUTE
+//============================
 router.get('/new', (req, res) => {
-  Author.find({}, (err, allAuthors) => {
+  try{
+    const allAuthors = await Author.find({});
     res.render('articles/new.ejs', {
       authors: allAuthors
     }); 
-  });
+  }catch(err){
+    res.send(err)
+  }
 });
 
+//============================
+//    AUTHOR ARTICLE ROUTE
+//============================
 // display the author with a link on the Article show page
 router.get('/:id', (req, res) => {
   Article.findById(req.params.id, (err, foundArticle) => {
@@ -34,7 +50,9 @@ router.get('/:id', (req, res) => {
 }); 
 
 
-// edit
+//============================
+//    EDIT ROUTE
+//============================
 router.get('/:id/edit', (req, res) => {
   Article.findById(req.params.id, (err, foundArticle) => {
     //Find all the authors, so we can select them in the drop
@@ -54,19 +72,16 @@ router.get('/:id/edit', (req, res) => {
 });
 
 
+//============================
+//    POST NEW ARTICLE ROUTE
+//============================
 router.post('/', (req, res) => {
-  //create a new Article, Push a copy to the Authors
-  //article array
-  console.log("-------------------req.body-------------------");   
-  console.log(req.body)
+  console.log(req.body, '<------THIS IS REQ.BODY')
   Author.findById(req.body.authorId, (err, foundAuthor) => {
-    console.log("-------------------foundAuthor-------------------");   
-    console.log(foundAuthor)
-    //found author is the document, eith authors articles array
+    console.log(foundAuthor, '<------THIS IS FOUNDAUTHOR')
+    //found author is the document, With authors articles array
     Article.create(req.body, (err, createdArticle) => {
-      console.log("-------------------createdArticle-------------------")      
-      console.log(createdArticle)
-      console.log("")
+      console.log(createdArticle, '<------THIS IS CREATEDARTICLE')
       foundAuthor.articles.push(createdArticle);
       foundAuthor.save((err, data) => {
         res.redirect('/articles');
@@ -74,6 +89,9 @@ router.post('/', (req, res) => {
     });
   }); 
 });
+//============================
+//    DELETE ARTICLE ROUTE
+//============================
 
 router.delete('/:id', (req, res) => {
   Article.findByIdAndRemove(req.params.id, (err, foundArticle) => {
@@ -87,6 +105,9 @@ router.delete('/:id', (req, res) => {
     });
   }); 
 });
+//============================
+//    UPDATE ARTICLE ROUTE
+//============================
 
 //update and article we want to the authors articles list
 router.put('/:id', (req, res) => {
