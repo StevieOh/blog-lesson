@@ -15,14 +15,22 @@
 </header>
 <main>
   <section>
-    <h2>Author Attributes</h2>
+    <h2>Articles Written by this Author</h2>
     <ul>
-      <li>Name: <%=author.name%></li>
+      <% for(let i = 0; i < author.articles.length; i++){%>
+        <li><a href="/articles/<%=author.articles[i].id%>"><%=author.articles[i].title%></a></li>
+      <%}%>
     </ul>
     </section>
+
     <section>
+      <h2>Author Attributes</h2>
+      <ul>
+        <li>Name: <%=author.name%></li>
+      </ul>
       <a href="/authors/<%= author.id%>/edit">EDIT</a>
     </section>
+    
     <section>
     <form method="POST" action="/authors/<%=author.id%>?_method=DELETE"><input type="submit" value="DELETE"></form>
   </section>
