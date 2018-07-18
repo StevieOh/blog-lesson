@@ -43,22 +43,18 @@ router.get('/new', async (req, res) => {
 //    AUTHOR ARTICLE ROUTE
 //============================
 // display the author with a link on the Article show page
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   try{
-    const 
+    const foundArticle = await Article.findById(req.params.id)
+    const foundAuthor = await Author.findOne({"articles._id":req.params.id}) 
+    res.render('articles/show.ejs', {
+      article: foundArticle,
+      author: foundAuthor
+    });
   } catch (err){
-
-  //}
-  Article.findById(req.params.id, (err, foundArticle) => {
-    //find the author of the article
-    Author.findOne({"articles._id":req.params.id}, (err, foundAuthor) => {
-      res.render('articles/show.ejs', {
-        article: foundArticle,
-        author: foundAuthor
-      });
-    });  
-  });
-//}); 
+    res.send(err)
+  }
+}); 
 
 
 
@@ -76,7 +72,6 @@ router.get('/:id/edit', (req, res) => {
           article: foundArticle,
           author: allAuthors,
           articleAuthor: foundArticleAuthor
-      
         });
       });
     });

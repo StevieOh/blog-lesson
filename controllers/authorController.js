@@ -98,21 +98,15 @@ router.post('/', async (req, res) => {
 //==============================
 //    DELETE ROUTE
 //==============================
-router.delete('/:id', (req, res) => {
-  Author.findByIdAndRemove(req.params.id, (err, deletedAuthor) => {
-    console.log(deletedAuthor, ' this is deletedAuthor');
-   // we are collecting all of the Article Ids fri the 
-   //deletedAuthors article property
-    const articleIds = [];
-    for(let i = 0; i < deletedAuthor.articles.length; i++){
-      articleIds.push(deletedAuthor.articles[i].id)
-    }
-    Article.remove(
-      {_id:{ $in: articleIds}}, (err, data) => {
-      res.redirect('/authors')
-    })
-    })
-  }) 
+router.delete('/:id', async (req, res) => {
+  try{
+    const deletedAuthor = Author.findByIdAndRemove(req.params.id) 
+    console.log(deletedAuthor, '<------ this is deletedAuthor');
+    res.redirect('/authors')
+  } catch (err){
+    res.send(err);
+  }
+}) 
 
 
 
