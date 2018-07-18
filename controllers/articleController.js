@@ -4,6 +4,8 @@ const router = express.Router();
 const Article = require('../models/article');
 const Author = require('../models/author');
 
+
+
 //============================
 //    ARTICLE INDEX ROUTE
 //============================
@@ -19,10 +21,12 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+
+
 //============================
 //    NEW ARTICLE ROUTE
 //============================
-router.get('/new', (req, res) => {
+router.get('/new', async (req, res) => {
   try{
     const allAuthors = await Author.find({});
     res.render('articles/new.ejs', {
@@ -33,11 +37,18 @@ router.get('/new', (req, res) => {
   }
 });
 
+
+
 //============================
 //    AUTHOR ARTICLE ROUTE
 //============================
 // display the author with a link on the Article show page
 router.get('/:id', (req, res) => {
+  try{
+    const 
+  } catch (err){
+
+  //}
   Article.findById(req.params.id, (err, foundArticle) => {
     //find the author of the article
     Author.findOne({"articles._id":req.params.id}, (err, foundAuthor) => {
@@ -47,7 +58,8 @@ router.get('/:id', (req, res) => {
       });
     });  
   });
-}); 
+//}); 
+
 
 
 //============================
@@ -72,6 +84,7 @@ router.get('/:id/edit', (req, res) => {
 });
 
 
+
 //============================
 //    POST NEW ARTICLE ROUTE
 //============================
@@ -89,10 +102,12 @@ router.post('/', (req, res) => {
     });
   }); 
 });
+
+
+
 //============================
 //    DELETE ARTICLE ROUTE
 //============================
-
 router.delete('/:id', (req, res) => {
   Article.findByIdAndRemove(req.params.id, (err, foundArticle) => {
   //find the author with this article
@@ -105,11 +120,12 @@ router.delete('/:id', (req, res) => {
     });
   }); 
 });
+
+
+
 //============================
 //    UPDATE ARTICLE ROUTE
 //============================
-
-//update and article we want to the authors articles list
 router.put('/:id', (req, res) => {
   Article.findByIdAndUpdate(req.params.id, req.body, {new:true}, (err, updatedArticle) => {
     //find the author with that article

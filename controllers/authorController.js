@@ -3,38 +3,56 @@ const router = express.Router();
 const Author = require('../models/author');
 const Article = require('../models/article')
 
-router.get('/', (req, res) => {
-  Author.find({}, (err, foundAuthors) => {
-    res.render('authors/index.ejs', {
-      authors: foundAuthors
+
+//==============================
+//    AUTHOR INDEX ROUTE
+//==============================
+router.get('/', async (req, res) => {
+  try{
+    const foundAuthor = await Author.find({}) 
+      res.render('authors/index.ejs', {
+        authors: foundAuthors
     });
-  }); 
-});
-
-//=======================
-// NEW ROUTE
-//=======================
-
-router.get('/new', (req, res) => {
- res.render('authors/new.ejs') 
-});
-//=======================
-//  AUTHOR SHOW PAGE
-//=======================
-router.get('/:id', (req, res) => {
- Author.findById(req.params.id, (err, foundAuthor) => {
-   res.render('authors/show.ejs',{
-    author: foundAuthor
-   });
- });
+  } catch (err){
+    res.send(err);
+  }
 });
 
 
-//========================
-//  EDIT ROUTE
-//========================
+
+//==============================
+//    NEW ROUTE
+//==============================
+router.get('/new', async (req, res) => {
+  try{
+    res.render('authors/new.ejs')
+  } catch (err){
+    res.send(err)
+  }
+});
+
+
+
+//==============================
+//    AUTHOR SHOW PAGE
+//==============================
+router.get('/:id', async (req, res) => {
+  try{
+    const foundAuthor = Author.findById(req.params.id)
+    res.render('authors/show.ejs',{
+      author: foundAuthor
+    });
+  } catch(err){
+    res.send(err)
+  }
+});
+
+
+
+//==============================
+//    EDIT ROUTE
+//==============================
 router.get('/:id/edit', (req, res) => {
-
   Author.findById(req.params.id, (err, foundAuthor) => {
     res.render('authors/edit.ejs', {
       author: foundAuthor
@@ -42,6 +60,11 @@ router.get('/:id/edit', (req, res) => {
   });
 });
 
+
+
+//==============================
+//    UPDATE AUTHOR ROUTE
+//==============================
 router.put('/:id', (req, res) => {
   Author.findByIdAndUpdate(req.params.id, req.body, {new:true}, (err, updatedAuthors) => {
       res.redirect('/authors')
@@ -49,6 +72,10 @@ router.put('/:id', (req, res) => {
 });
 
 
+
+//==============================
+//    POST UPDATED AUTHOR
+//==============================
 router.post('/', (req, res) => {
   console.log(req.body)
   Author.create(req.body, (err, createdAuthor) => {
@@ -57,9 +84,11 @@ router.post('/', (req, res) => {
   });
 });
 
-//=====================
-//  DELETE ROUTE
-//=====================
+
+
+//==============================
+//    DELETE ROUTE
+//==============================
 router.delete('/:id', (req, res) => {
   Author.findByIdAndRemove(req.params.id, (err, deletedAuthor) => {
     console.log(deletedAuthor, ' this is deletedAuthor');
