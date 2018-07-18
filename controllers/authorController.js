@@ -82,12 +82,15 @@ router.put('/:id', async (req, res) => {
 //==============================
 //    POST UPDATED AUTHOR
 //==============================
-router.post('/', (req, res) => {
-  console.log(req.body)
-  Author.create(req.body, (err, createdAuthor) => {
-    console.log(createdAuthor, ' this is the createdAuthor');
+router.post('/', async (req, res) => {
+  try{
+    console.log(req.body, '<------this is req.body')
+    const createdAuthor = await Author.create(req.body)
+    console.log(createdAuthor, '<------this is the createdAuthor');
     res.redirect('/authors');
-  });
+  } catch (err){
+    res.send(err)
+  }
 });
 
 
