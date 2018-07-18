@@ -52,12 +52,15 @@ router.get('/:id', async (req, res) => {
 //==============================
 //    EDIT ROUTE
 //==============================
-router.get('/:id/edit', (req, res) => {
-  Author.findById(req.params.id, (err, foundAuthor) => {
+router.get('/:id/edit', async (req, res) => {
+  try{
+    const foundAuthor = await Author.findById(req.params.id)
     res.render('authors/edit.ejs', {
       author: foundAuthor
     });
-  });
+  } catch(err){
+    res.send(err);
+  }
 });
 
 
