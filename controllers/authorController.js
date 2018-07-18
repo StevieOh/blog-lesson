@@ -68,10 +68,13 @@ router.get('/:id/edit', async (req, res) => {
 //==============================
 //    UPDATE AUTHOR ROUTE
 //==============================
-router.put('/:id', (req, res) => {
-  Author.findByIdAndUpdate(req.params.id, req.body, {new:true}, (err, updatedAuthors) => {
-      res.redirect('/authors')
-  }); 
+router.put('/:id', async (req, res) => {
+  try{
+    const updatedAuthors = await Author.findByIdAndUpdate(req.params.id, req.body, {new:true})
+      res.redirect('/authors') 
+  }catch (err){
+    res.send(err)
+  }
 });
 
 
