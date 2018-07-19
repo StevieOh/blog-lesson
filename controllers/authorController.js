@@ -9,7 +9,7 @@ const Article = require('../models/article')
 //==============================
 router.get('/', async (req, res) => {
   try{
-    const foundAuthor = await Author.find({}) 
+    const foundAuthor = await Author.find() 
       res.render('authors/index.ejs', {
         authors: foundAuthors
     });
